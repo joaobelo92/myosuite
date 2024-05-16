@@ -1,6 +1,6 @@
 # task and env
 env:
-  env_name: HalfCheetah-v3
+  env_name: myoHandPoseRandom-v0-256
 
 # collector
 collector:
@@ -11,7 +11,7 @@ collector:
 logger:
   backend: wandb
   exp_name: Mujoco_Schulman17
-  test_interval: 1_000_000
+  test_interval: 2_500_000
   num_test_episodes: 5
 
 # Optim

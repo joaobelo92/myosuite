@@ -35,7 +35,7 @@ from torchrl.modules import MLP, ProbabilisticActor, TanhNormal, ValueOperator
 from myosuite.utils import gym
 
 def make_env(env_name="", device="cpu"):
-    env = GymWrapper(gym.make("myoElbowPose1D6MRandom-v0"), device=device)
+    env = GymWrapper(gym.make("myoArmRandom-v0"), device=device)
     env = TransformedEnv(env)
     env.append_transform(VecNorm(in_keys=["observation"], decay=0.99999, eps=1e-2))
     env.append_transform(RewardSum())
@@ -68,7 +68,7 @@ def make_ppo_models_state(proof_environment):
         in_features=input_shape[-1],
         activation_class=torch.nn.Tanh,
         out_features=num_outputs,  # predict only loc
-        num_cells=[64, 64],
+        num_cells=[256, 256],
     )
 
     # Initialize policy weights
@@ -105,7 +105,7 @@ def make_ppo_models_state(proof_environment):
         in_features=input_shape[-1],
         activation_class=torch.nn.Tanh,
         out_features=1,
-        num_cells=[64, 64],
+        num_cells=[256, 256],
     )
 
     # Initialize value weights
@@ -357,6 +357,7 @@ def main(cfg: "DictConfig"):  # noqa: F821
         collector.update_policy_weights_()
         sampling_start = time.time()
 
+    torch.save(actor.state_dict(), f"actor_{cfg.env.env_name}.pth")
     end_time = time.time()
     execution_time = end_time - start_time
     print(f"Training took {execution_time:.2f} seconds to finish")

@@ -46,7 +46,7 @@ def register_env_with_variants(id, entry_point, max_episode_steps, kwargs):
 
 curr_dir = os.path.dirname(os.path.abspath(__file__))
 
-print("MyoSuite:> Registering Myo Envs")
+print("MyoSuite:> Registering Myo Envs Locally")
 
 # Finger-tip reaching ==============================
 register_env_with_variants(id='motorFingerReachFixed-v0',
@@ -221,7 +221,7 @@ register_env_with_variants(id='myoFingerPoseRandom-v0',
 # Remove this when the ASL envs stablizes
 register_env_with_variants(id='myoHandPoseFixed-v0', # revisit
         entry_point='myosuite.envs.myo.myobase.pose_v0:PoseEnvV0',
-        max_episode_steps=100,
+        max_episode_steps=300,
         kwargs={
             'model_path': curr_dir+'/../assets/hand/myohand_pose.xml',
             'viz_site_targets': ('THtip','IFtip','MFtip','RFtip','LFtip'),
@@ -272,7 +272,7 @@ for i_n, n  in enumerate(jnt_namesHand):
 
 register_env_with_variants(id='myoHandPoseRandom-v0',  #reconsider
         entry_point='myosuite.envs.myo.myobase.pose_v0:PoseEnvV0',
-        max_episode_steps=100,
+        max_episode_steps=300,
         kwargs={
             'model_path': curr_dir+'/../assets/hand/myohand_pose.xml',
             'viz_site_targets': ('THtip','IFtip','MFtip','RFtip','LFtip'),
@@ -517,4 +517,18 @@ register_env_with_variants(id='myoHandReorientOOD-v0',
                 'normalize_act': True,
                 'frame_skip': 5,
             }
+    )
+
+register_env_with_variants(id='myoArmRandom-v0',
+        entry_point='myosuite.envs.myo.myobase.pose_v0:PoseEnvV0',
+        max_episode_steps=100,
+        kwargs={
+            'model_path': curr_dir+'/../assets/arm/myoarm.xml',
+            # used to generate target poses
+            'target_jnt_range': {'elbow_flexion':(0, 2.27), 'shoulder_rot':(-0.5, 1), 'flexion':(-0.5, 0.5)},
+            # 'viz_site_targets': ('wrist',),
+            'normalize_act': True,
+            'pose_thd': .175,
+            'reset_type': 'random'
+        }
     )

@@ -91,7 +91,7 @@ class PoseEnvV0(BaseV0):
         obs_dict['qpos'] = sim.data.qpos[:].copy()
         obs_dict['qvel'] = sim.data.qvel[:].copy()*self.dt
         obs_dict['act'] = sim.data.act[:].copy() if sim.model.na>0 else np.zeros_like(obs_dict['qpos'])
-        obs_dict['pose_err'] = self.target_jnt_value - obs_dict['qpos']
+        obs_dict['pose_err'] = self.target_jnt_value - obs_dict['qpos'][self.target_jnt_ids]
         return obs_dict
 
     def get_reward_dict(self, obs_dict):
@@ -131,7 +131,7 @@ class PoseEnvV0(BaseV0):
         # generate targets
         self.target_jnt_value = self.get_target_pose()
         # update finger-tip target viz
-        self.sim.data.qpos[:] = self.target_jnt_value.copy()
+        self.sim.data.qpos[self.target_jnt_ids] = self.target_jnt_value.copy()
         self.sim.forward()
         for isite in range(len(self.tip_sids)):
             self.sim.model.site_pos[self.target_sids[isite]] = self.sim.data.site_xpos[self.tip_sids[isite]].copy()
