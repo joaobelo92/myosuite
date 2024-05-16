@@ -1,0 +1,7 @@
+env:
+  model: ""
+  env_name: ""
+
+# network / model
+network:
+  device: "cuda:0"
