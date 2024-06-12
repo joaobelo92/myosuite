@@ -1,7 +1,26 @@
 env:
   model: ""
-  env_name: ""
+  env_name: "myoArmRandom-v0"
+  seed: 42
 
 # network / model
 network:
-  device: "cuda:0"
+  device: cuda:0
+  num_cells: [256, 256]
+
+optim:
+  loss_function: l2
+  policy_noise: 0.2
+  noise_clip: 0.5
+  gamma: 0.99
+  target_update_polyak: 0.995
+
+collector:
+  init_random_frames: 25_000
+  frames_per_batch: 1_000
+  total_frames: 1_000_000
+  reset_at_each_iter: False
+  device: cpu
+
+logger:
+  backend: 

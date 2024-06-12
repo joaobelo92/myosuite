@@ -248,7 +248,7 @@ def main(cfg: "DictConfig"):  # noqa: F821
     cfg_logger_test_interval = cfg.logger.test_interval
     cfg_logger_num_test_episodes = cfg.logger.num_test_episodes
     losses = TensorDict({}, batch_size=[cfg_loss_ppo_epochs, num_mini_batches])
-
+    from torchrl.objectives import SoftUpdate
     for i, data in enumerate(collector):
 
         log_info = {}

@@ -1,4 +1,6 @@
 *.DS_Store
+.idea
+myosuite/agents/outputs
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
